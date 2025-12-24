@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <title>រចនាសម្ព័ន្ធអង្គការ - វត្តសាលាគូរ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Khmer+OS+Moul&family=Khmer+OS+Muol&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Khmer OS Muol', 'Khmer OS Moul', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(46, 241, 241, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(46, 241, 241, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .wat-name {
+            font-size: 2.5rem;
+            color: #2ef1f1;
+            text-shadow: 0 0 15px rgba(46, 241, 241, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .wat-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .structure-title {
+            font-size: 2rem;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 5px solid #2ef1f1;
+            border-right: 5px solid #2ef1f1;
+        }
+
+        /* Organizational Chart Styles */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* Level Styles */
+        .level {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Box Styles */
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            width: 220px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box:hover {
+            transform: translateY(-10px);
+            border-color: #2ef1f1;
+            box-shadow: 0 15px 30px rgba(46, 241, 241, 0.3);
+        }
+
+        /* Level 1 - Abbot */
+        .level-1 .box {
+            background: linear-gradient(135deg, #2ef1f1 0%, #1bdada 100%);
+            border-color: #fff;
+            width: 300px;
+            padding: 30px;
+        }
+
+        /* Level 2 - Monks */
+        .level-2 .box {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-color: #fff;
+        }
+
+        /* Level 3 - Novices */
+        .level-3 .box {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            border-color: #fff;
+        }
+
+        /* Profile Image Container */
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .level-1 .profile-img {
+            width: 150px;
+            height: 150px;
+            border: 6px solid #fff;
+        }
+
+        .level-2 .profile-img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .box:hover .profile-img img {
+            transform: scale(1.1);
+        }
+
+        /* Placeholder for missing images */
+        .profile-img::before {
+            content: attr(data-initial);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .level-1 .profile-img::before {
+            font-size: 4rem;
+        }
+
+        .level-2 .profile-img::before {
+            font-size: 2.5rem;
+        }
+
+        /* Text Styles */
+        .box-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-1 .box-title {
+            font-size: 1.8rem;
+        }
+
+        .box-name {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .box-role {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .box-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #fff;
+            margin-top: 5px;
+        }
+
+        /* Connecting Lines */
+        .connections {
+            position: relative;
+            width: 100%;
+            height: 40px;
+        }
+
+        .connector {
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: #2ef1f1;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        .horizontal-connectors {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .horizontal-connector {
+            width: 30%;
+            height: 2px;
+            background: #2ef1f1;
+            margin-top: 20px;
+        }
+
+        /* Special Icon for Abbot */
+        .abbot-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ffd700;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Monks Icon */
+        .monk-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #4CAF50;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Novices Icon */
+        .novice-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #FF9800;
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* Back button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(46, 241, 241, 0.2);
+            color: #fff;
+            border: 2px solid #2ef1f1;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn:hover {
+            background: rgba(46, 241, 241, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 241, 241, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .level {
+                gap: 20px;
+            }
+            
+            .box {
+                width: 200px;
+            }
+            
+            .level-1 .box {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .level {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .box {
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            .wat-name {
+                font-size: 1.8rem;
+            }
+            
+            .structure-title {
+                font-size: 1.5rem;
+            }
+            
+            .horizontal-connectors {
+                display: none;
+            }
+            
+            .connections {
+                display: none;
+            }
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 60px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-text {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* Counter */
+        .counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(46, 241, 241, 0.2);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            border: 2px solid #2ef1f1;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-btn">
+        <i class="fas fa-arrow-left"></i> ត្រឡប់ក្រោយ
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="wat-name">វត្តសាលាគូរ (វត្តអំពិលបី)</h1>
+            <p class="wat-subtitle">រចនាសម្ព័ន្ធអង្គការព្រះសង្ឃ</p>
+        </div>
+
+        <h2 class="structure-title">ប្រព័ន្ធគ្រប់គ្រងវត្តអារាម</h2>
+
+        <div class="org-chart">
+            <!-- Level 1: Abbot (1 box) -->
+            <div class="level level-1">
+                <div class="box" data-id="1">
+                    <div class="abbot-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ច">
+                        <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="ព្រះចៅអធិការ" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">ព្រះចៅអធិការវត្ត</div>
+                    <div class="box-name">ព្រះតេជគុណ ធម្មវិរិយោ</div>
+                    <div class="box-role">ប្រធានវត្តអារាម</div>
+                    <div class="box-status">តាំងពីឆ្នាំ ២០១៥</div>
+                </div>
+            </div>
+
+            <!-- Connecting Line -->
+            <div class="connections">
+                <div class="connector"></div>
+            </div>
+
+            <!-- Level 2: Monks (2 boxes) -->
+            <div class="level level-2">
+                <div class="box" data-id="2">
+                    <div class="monk-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="profile-img" data-initial="វ">
+                        <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="ព្រះភិក្ខុទី១" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">ព្រះភិក្ខុ</div>
+                    <div class="box-name">ព្រះតេជគុណ វិបស្សនាធរោ</div>
+                    <div class="box-role">អធិបតីរង</div>
+                    <div class="box-status">១០ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="3">
+                    <div class="monk-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ប">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="ព្រះភិក្ខុទី២" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">ព្រះភិក្ខុ</div>
+                    <div class="box-name">ព្រះតេជគុណ បញ្ញាវ័ន្តោ</div>
+                    <div class="box-role">ប្រធានគណៈសិក្សាធម៌</div>
+                    <div class="box-status">៨ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+            </div>
+
+            <!-- Connecting Lines -->
+            <div class="horizontal-connectors">
+                <div class="horizontal-connector"></div>
+                <div class="horizontal-connector"></div>
+            </div>
+
+            <!-- Level 3: Novices (15 boxes) -->
+            <div class="level level-3">
+                <!-- Novices 1-5 -->
+                <div class="box" data-id="4">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ស">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">សុខ សំអាត</div>
+                    <div class="box-role">គ្រប់គ្រងសំណង់</div>
+                    <div class="box-status">៣ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="5">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ម">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ២" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ម៉ៅ រស្មី</div>
+                    <div class="box-role">ជំនួយការសាងសង់</div>
+                    <div class="box-status">២ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="6">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="វ">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៣" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">វ៉ាន់ សុខគា</div>
+                    <div class="box-role">ហិរញ្ញវត្ថុ</div>
+                    <div class="box-status">៤ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="7">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ជ">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៤" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ជី សុខចន្ទ</div>
+                    <div class="box-role">ជំនួយការសិក្សាធម៌</div>
+                    <div class="box-status">២.៥ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="8">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ឃ">
+                        <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៥" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ឃីម សុខខេង</div>
+                    <div class="box-role">ជំនួយការសាងសង់</div>
+                    <div class="box-status">៣ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+            </div>
+
+            <!-- Second row of novices -->
+            <div class="level level-3">
+                <!-- Novices 6-10 -->
+                <div class="box" data-id="9">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ស">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៦" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">សែន វិច្ឆិកា</div>
+                    <div class="box-role">ផ្សព្វផ្សាយព័ត៌មាន</div>
+                    <div class="box-status">១.៥ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="10">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ក">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៧" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">កែវ ច័ន្ទឬទ្ធិ</div>
+                    <div class="box-role">ថែរក្សាសួនច្បារ</div>
+                    <div class="box-status">២ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="11">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ល">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៨" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">លី សុខធា</div>
+                    <div class="box-role">ថែរក្សាគុជ</div>
+                    <div class="box-status">៣.៥ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="12">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ណ">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ៩" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ណារ៉ុត មុន្នី</div>
+                    <div class="box-role">ជំនួយការស្ត្រី</div>
+                    <div class="box-status">២ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="13">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="អ">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១០" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">អ៊ុំ សុខហេង</div>
+                    <div class="box-role">ថែរក្សាសៀវភៅ</div>
+                    <div class="box-status">៤ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+            </div>
+
+            <!-- Third row of novices -->
+            <div class="level level-3">
+                <!-- Novices 11-15 -->
+                <div class="box" data-id="14">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ផ">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១១" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ផល្លី សុខខាន់</div>
+                    <div class="box-role">ជំនួយការសីល</div>
+                    <div class="box-status">១ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="15">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ស">
+                        <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១២" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">សុខ សំណាង</div>
+                    <div class="box-role">ជំនួយការធម្មកថិក</div>
+                    <div class="box-status">២.៥ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="16">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ទ">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១៣" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ទេព សុខនាង</div>
+                    <div class="box-role">ជំនួយការវត្ត</div>
+                    <div class="box-status">៣ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="17">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="ព">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១៤" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">ពេជ្រ សុខផល</div>
+                    <div class="box-role">ជំនួយការបុណ្យ</div>
+                    <div class="box-status">៥ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+
+                <div class="box" data-id="18">
+                    <div class="novice-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-img" data-initial="គ">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="សាមណេរ ១៥" 
+                             onerror="this.style.display='none'">
+                    </div>
+                    <div class="box-title">សាមណេរ</div>
+                    <div class="box-name">គីម សុខគុណ</div>
+                    <div class="box-role">ជំនួយការទូទៅ</div>
+                    <div class="box-status">២ ឆ្នាំក្នុងសំណាក់</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #2ef1f1 0%, #1bdada 100%);"></div>
+                <span class="legend-text">ព្រះចៅអធិការវត្ត (១ អង្គ)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);"></div>
+                <span class="legend-text">ព្រះភិក្ខុ (២ អង្គ)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);"></div>
+                <span class="legend-text">សាមណេរ (១៥ អង្គ)</span>
+            </div>
+        </div>
+
+        <!-- Counter -->
+        <div class="counter">
+            សរុប៖ ១៨ អង្គ
+        </div>
+    </div>
+
+    <script>
+        // Add click effects to all boxes
+        document.querySelectorAll('.box').forEach(box => {
+            box.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const title = this.querySelector('.box-title').textContent;
+                const name = this.querySelector('.box-name').textContent;
+                const role = this.querySelector('.box-role').textContent;
+                const status = this.querySelector('.box-status').textContent;
+                
+                // Create modal effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // Show detailed information
+                alert(`ព័ត៌មានលម្អិត:\n\nលេខ៖ ${id}\nតួនាទី៖ ${title}\nឈ្មោះ៖ ${name}\nការងារ៖ ${role}\nឋានៈ៖ ${status}`);
+            });
+        });
+
+        // Add image error handling
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                const parent = this.parentElement;
+                if (parent.classList.contains('profile-img')) {
+                    parent.style.background = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        });
+
+        // Back button functionality
+        document.querySelector('.back-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.history.back();
+        });
+
+        // Initialize with animation
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.box').forEach((box, index) => {
+                setTimeout(() => {
+                    box.style.opacity = '0';
+                    box.style.transform = 'translateY(20px)';
+                    box.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        box.style.opacity = '1';
+                        box.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

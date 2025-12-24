@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <title>វត្តសាលាគូរ (វត្តអំពិលបី) | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Khmer+OS+Moul&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ប្រើពុម្ពអក្សរខ្មែរ */
+        body {
+            font-family: 'Khmer OS Moul', 'Segoe UI', Arial, Helvetica, sans-serif;
+            background: #2b2b2b;
+            color: #fff;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Video Background */
+        .video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.3;
+            filter: brightness(0.7);
+        }
+
+        /* Overlay លើ video */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(43, 43, 43, 0.9), rgba(43, 43, 43, 0.6));
+            z-index: -1;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background-color: rgba(43, 43, 43, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Logo ដែលវិល */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .rotating-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #2ef1f1 30%, transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: rotateSlow 20s infinite linear;
+            box-shadow: 0 0 15px rgba(46, 241, 241, 0.5);
+            border: 2px solid rgba(46, 241, 241, 0.3);
+        }
+
+        @keyframes rotateSlow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotating-logo i {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .logo-text:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 4px 12px rgba(46, 241, 241, 0.4);
+        }
+
+        .logo-text span {
+            color: #2ef1f1;
+            text-shadow: 0 0 10px rgba(46, 241, 241, 0.5);
+        }
+
+        /* Desktop Navigation */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 15px;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #2ef1f1;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #2ef1f1;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .mobile-nav-toggle:hover {
+            transform: scale(1.1);
+            color: #2ef1f1;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(43, 43, 43, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transition: right 0.4s ease;
+            padding: 80px 30px 30px;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-nav a::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #2ef1f1;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav a:hover {
+            color: #2ef1f1;
+            padding-left: 20px;
+        }
+
+        .mobile-nav a:hover::before {
+            transform: scaleY(1);
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mode {
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.5s ease, color 0.3s ease;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .mode:hover {
+            transform: rotate(30deg);
+            color: #2ef1f1;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 80px;
+            min-height: calc(100vh - 80px);
+            animation: fadeIn 1s ease-out 0.2s both;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-text {
+            max-width: 500px;
+            animation: slideInLeft 1s ease-out 0.4s both;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .hero-text h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #ccc;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        /* Typing Effect សម្រាប់អក្សរដែលរត់ */
+        .typing-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .typing-text {
+            font-size: 20px;
+            color: #ccc;
+            display: inline-block;
+            overflow: hidden;
+            border-right: 2px solid #2ef1f1;
+            white-space: nowrap;
+            animation: typingCursor 0.7s infinite;
+        }
+
+        @keyframes typingCursor {
+            0%, 100% { border-color: #2ef1f1; }
+            50% { border-color: transparent; }
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease;
+            color: #fff;
+            min-height: 60px;
+        }
+
+        .hero-text h1:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-text h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-text h3::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #2ef1f1;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.5s ease-out;
+        }
+
+        .hero-text h3:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .hero-text span {
+            color: #2ef1f1;
+            text-shadow: 0 0 10px rgba(46, 241, 241, 0.5);
+        }
+
+        .hero-text p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #ccc;
+            text-align: justify;
+        }
+
+        /* Button */
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            background: #2ef1f1;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 241, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-family: 'Khmer OS Moul', sans-serif;
+            font-size: 14px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.7s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            background: #1bdada;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 241, 241, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(46, 241, 241, 0.4);
+        }
+
+        /* Image */
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 1s ease-out 0.6s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .glow {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            padding: 10px;
+            background: radial-gradient(circle, #2ef1f1 40%, transparent 70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 0 30px rgba(46, 241, 241, 0.6),
+                0 0 60px rgba(46, 241, 241, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: pulse 3s infinite ease-in-out;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 
+                    0 0 30px rgba(46, 241, 241, 0.6),
+                    0 0 60px rgba(46, 241, 241, 0.3),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 
+                    0 0 40px rgba(46, 241, 241, 0.8),
+                    0 0 80px rgba(46, 241, 241, 0.5),
+                    inset 0 0 25px rgba(255, 255, 255, 0.2);
+            }
+            100% {
+                box-shadow: 
+                    0 0 30px rgba(46, 241, 241, 0.6),
+                    0 0 60px rgba(46, 241, 241, 0.3),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .glow:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 40px rgba(46, 241, 241, 0.8),
+                0 0 80px rgba(46, 241, 241, 0.5),
+                inset 0 0 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .glow img {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.95);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(46, 241, 241, 0.3);
+        }
+
+        .glow:hover img {
+            transform: rotate(5deg) scale(1.02);
+            filter: brightness(1.05);
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(46, 241, 241, 0.1);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ប្រើពុម្ពអក្សរខ្មែរសម្រាប់ navigation */
+        nav a, .mobile-nav a {
+            font-family: 'Khmer OS Moul', sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Video control button */
+        .video-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .video-control:hover {
+            background: rgba(46, 241, 241, 0.7);
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .navbar {
+                padding: 20px 40px;
+            }
+            
+            nav a {
+                margin: 0 10px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 20px 30px;
+            }
+            
+            /* Hide desktop navigation */
+            nav {
+                display: none;
+            }
+            
+            /* Show mobile menu toggle */
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+            }
+
+            .hero-image {
+                margin-top: 40px;
+            }
+            
+            .hero-text h1 {
+                font-size: 36px;
+                min-height: 50px;
+            }
+            
+            .hero-text h3 {
+                font-size: 20px;
+            }
+            
+            .hero-text p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+            
+            .glow {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .glow img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            .logo-text {
+                font-size: 18px;
+            }
+            
+            .rotating-logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .mobile-nav {
+                width: 250px;
+            }
+            
+            .hero-text h1 {
+                font-size: 28px;
+            }
+        }
+        
+        /* Light mode */
+        body.light-mode {
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        body.light-mode .video-overlay {
+            background: linear-gradient(to right, rgba(245, 245, 245, 0.9), rgba(245, 245, 245, 0.6));
+        }
+        
+        body.light-mode .navbar {
+            background-color: rgba(245, 245, 245, 0.9);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.light-mode nav a {
+            color: #333;
+        }
+        
+        body.light-mode .mobile-nav {
+            background: rgba(245, 245, 245, 0.95);
+        }
+        
+        body.light-mode .mobile-nav a {
+            color: #333;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        body.light-mode .hero-text p {
+            color: #666;
+        }
+        
+        body.light-mode .mode {
+            color: #333;
+        }
+        
+        body.light-mode .mobile-nav-toggle {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-wrapper">
+        <video id="backgroundVideo" autoplay loop muted>
+            <!-- ប្រើ video ផ្ទាល់របស់អ្នក -->
+            <source src="IMG_1020.MOV" type="video/mp4">
+            <!-- Fallback ប្រសិនបើ browser មិន support video -->
+            <img src="fallback.jpg" alt="Background">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Floating Background Elements -->
+    <div class="floating-elements"></div>
+
+    <!-- Video Control Button -->
+    <button class="video-control" id="videoControl">
+        <i class="fas fa-pause"></i>
+    </button>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo-container">
+            <div class="rotating-logo">
+                <i class="fas fa-pagoda"></i> <!-- រូបតំណាងវត្ត -->
+            </div>
+            <div class="logo-text">ចតុមុខ <span>វឌ្ឍនា</span></div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav>
+            <a href="Index.html#">ទំព័រដើម</a>
+            <a href="​អំពីវត្ត.html">អំពីវត្ត</a>
+            <a href="​ សកម្មភាព.html">សកម្មភាព</a>
+            <a href="ទំព័រព័ត៏មាន.html">ព័ត៌មាន</a>
+            <a href="ទំពរ័ទំនាក់ទំនង.html">ទំនាក់ទំនង</a>
+        </nav>
+
+        <!-- Mobile Navigation Toggle (Hamburger Menu) -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="mode" id="modeToggle">🌙</div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="Index.html#">ទំព័រដើម</a>
+        <a href="​អំពីវត្ត.html">អំពីវត្ត</a>
+        <a href="​ សកម្មភាព.html">សកម្មភាព</a>
+        <a href="ទំព័រព័ត៏មាន.html">ព័ត៌មាន</a>
+        <a href="ទំពរ័ទំនាក់ទំនង.html">ទំនាក់ទំនង</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-text">
+            <h4>
+                <div class="typing-container">
+                    <span class="typing-text" id="typingText"></span>
+                </div>
+            </h4>
+            <h1 id="watName">វត្តសាលាគូរ (វត្តអំពិលបី)</h1>
+            <h3>ស្ថិតនៅ <span>ភូមិម្លូមុឺន ឃុំផ្សារដែក</span></h3>
+
+            <p>
+                វត្តសាលាគូរ ឬហៅថា វត្តអំពិលបី គឺជាវត្តអារាមដ៏សំខាន់មួយក្នុងខេត្តកណ្ដាល។ វត្តនេះជាកន្លែងបូជា សិក្សា និងធ្វើបុណ្យទានសម្រាប់ពុទ្ធបរិស័ទក្នុងតំបន់។
+            </p>
+
+            <button class="btn" id="moreInfoBtn">
+                <i class="fas fa-info-circle"></i> ព័ត៌មានផ្សេងៗ
+            </button>
+        </div>
+
+        <div class="hero-image">
+            <div class="glow">
+                <!-- ផ្លាស់ប្តូររូបភាព -->
+                <img src="IMG_7615 (2).PNG" alt="រូបវត្តសាលាគូរ">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Create floating background elements
+        const floatingContainer = document.querySelector('.floating-elements');
+        const colors = ['rgba(46, 241, 241, 0.1)', 'rgba(46, 241, 241, 0.05)', 'rgba(46, 241, 241, 0.15)'];
+        
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            // Random properties
+            const size = Math.random() * 60 + 10;
+            const posX = Math.random() * 100;
+            const delay = Math.random() * 15;
+            const duration = Math.random() * 20 + 10;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.left = `${posX}%`;
+            element.style.bottom = `-${size}px`;
+            element.style.background = color;
+            element.style.animationDelay = `${delay}s`;
+            element.style.animationDuration = `${duration}s`;
+            
+            floatingContainer.appendChild(element);
+        }
+        
+        // Dark/Light mode toggle
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('light-mode');
+            
+            if (document.body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                modeToggle.style.color = '#FF9800';
+            } else {
+                modeToggle.textContent = '🌙';
+                modeToggle.style.color = '';
+            }
+        });
+        
+        // Video control
+        const video = document.getElementById('backgroundVideo');
+        const videoControl = document.getElementById('videoControl');
+        
+        videoControl.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+                videoControl.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                video.pause();
+                videoControl.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+        
+        // Mobile Navigation Toggle
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        
+        let isMobileNavOpen = false;
+        
+        mobileNavToggle.addEventListener('click', function() {
+            isMobileNavOpen = !isMobileNavOpen;
+            
+            if (isMobileNavOpen) {
+                mobileNav.classList.add('active');
+                mobileNavOverlay.classList.add('active');
+                mobileNavToggle.innerHTML = '<i class="fas fa-times"></i>';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        });
+        
+        // Close mobile nav when clicking overlay
+        mobileNavOverlay.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            document.body.style.overflow = 'auto';
+            isMobileNavOpen = false;
+        });
+        
+        // Close mobile nav when clicking a link
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto';
+                isMobileNavOpen = false;
+            });
+        });
+        
+        // Close mobile nav when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isMobileNavOpen) {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto';
+                isMobileNavOpen = false;
+            }
+        });
+        
+        // Typing Effect
+        const typingText = document.getElementById('typingText');
+        const watName = document.getElementById('watName');
+        
+        const welcomeText = "សូមស្វាគមន៍មកកាន់";
+        const watFullName = "វត្តសាលាគូរ  ហៅ​​(វត្តអំពិលបី)";
+        
+        let welcomeIndex = 0;
+        let watIndex = 0;
+        let isDeleting = false;
+        let isFirstTextComplete = false;
+        
+        function typeWriter() {
+            if (!isFirstTextComplete) {
+                // Type welcome text
+                if (!isDeleting && welcomeIndex <= welcomeText.length) {
+                    typingText.textContent = welcomeText.substring(0, welcomeIndex);
+                    welcomeIndex++;
+                    setTimeout(typeWriter, 100);
+                } else if (isDeleting && welcomeIndex >= 0) {
+                    typingText.textContent = welcomeText.substring(0, welcomeIndex);
+                    welcomeIndex--;
+                    setTimeout(typeWriter, 50);
+                } else if (!isDeleting && welcomeIndex > welcomeText.length) {
+                    // Pause before deleting
+                    isDeleting = true;
+                    setTimeout(typeWriter, 1500);
+                } else if (isDeleting && welcomeIndex < 0) {
+                    // Switch to wat name
+                    isDeleting = false;
+                    isFirstTextComplete = true;
+                    welcomeIndex = 0;
+                    setTimeout(typeWriter, 500);
+                }
+            } else {
+                // Type wat name
+                if (watIndex <= watFullName.length) {
+                    watName.textContent = watFullName.substring(0, watIndex);
+                    watIndex++;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    // Restart animation after pause
+                    setTimeout(() => {
+                        watIndex = 0;
+                        isFirstTextComplete = false;
+                        typeWriter();
+                    }, 3000);
+                }
+            }
+        }
+        
+        // Start typing effect
+        setTimeout(typeWriter, 1000);
+        
+        // More Info button
+        const moreInfoBtn = document.getElementById('moreInfoBtn');
+        moreInfoBtn.addEventListener('click', function(event) {
+            // Create a ripple effect
+            const ripple = document.createElement('span');
+            const rect = moreInfoBtn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size/2;
+            const y = event.clientY - rect.top - size/2;
+            
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            ripple.classList.add('ripple');
+            
+            // Add CSS for ripple
+            const rippleStyle = document.createElement('style');
+            rippleStyle.textContent = `
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.7);
+                    transform: scale(0);
+                    animation: ripple-animation 0.6s linear;
+                }
+                
+                @keyframes ripple-animation {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(rippleStyle);
+            
+            moreInfoBtn.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+                rippleStyle.remove();
+            }, 600);
+            
+            // Show information
+            alert("ព័ត៌មានអំពីវត្តសាលាគូរ (វត្តអំពិលបី):\n\nទីតាំង: ភូមិម្លូមុឺន ឃុំផ្សារដែក ស្រុកពញាឮ ខេត្តកណ្ដាល\n\nវត្តនេះជាកន្លែងសក្ការៈបូជា និងសិក្សាធម៌សម្រាប់ពុទ្ធបរិស័ទក្នុងតំបន់។");
+        });
+        
+        // Add hover effect to nav links on load
+        window.addEventListener('load', function() {
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach((link, index) => {
+                link.style.animationDelay = `${index * 0.1 + 0.8}s`;
+            });
+            
+            // Auto play video on mobile
+            if (video.paused) {
+                video.play().catch(e => {
+                    console.log("Video autoplay failed:", e);
+                });
+            }
+        });
+        
+        // Handle video loading
+        video.addEventListener('loadeddata', function() {
+            console.log("Video loaded successfully");
+        });
+        
+        video.addEventListener('error', function() {
+            console.log("Error loading video, using fallback");
+            document.querySelector('.video-overlay').style.background = '#2b2b2b';
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            // Close mobile nav if window is resized to desktop size
+            if (window.innerWidth > 900 && isMobileNavOpen) {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto';
+                isMobileNavOpen = false;
+            }
+        });
+    </script>
+</body>
+</html>

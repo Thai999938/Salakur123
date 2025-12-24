@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <title>ទំនាក់ទំនង - វត្តសាលាគូរ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Khmer+OS+Moul&family=Khmer+OS+Muol&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Khmer OS Muol', 'Khmer OS Moul', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(46, 241, 241, 0.2);
+            color: #fff;
+            border: 2px solid #2ef1f1;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Khmer OS Moul', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(46, 241, 241, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 241, 241, 0.3);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1548092372-16270ac20a66?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            color: #2ef1f1;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #2ef1f1, 0 0 20px #2ef1f1; }
+            to { text-shadow: 0 0 20px #2ef1f1, 0 0 30px #2ef1f1; }
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Contact Layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 992px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contact Info Cards */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: #2ef1f1;
+            box-shadow: 0 15px 30px rgba(46, 241, 241, 0.2);
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #2ef1f1, #1bdada);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: #2ef1f1;
+            margin-bottom: 20px;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(46, 241, 241, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .contact-detail {
+            color: #ccc;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .contact-detail:hover {
+            background: rgba(46, 241, 241, 0.1);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        /* Contact Form */
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            border: 2px solid #2ef1f1;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            color: #2ef1f1;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Khmer OS Moul', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2ef1f1;
+            background: rgba(46, 241, 241, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Khmer OS Moul', sans-serif;
+            resize: vertical;
+            min-height: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #2ef1f1;
+            background: rgba(46, 241, 241, 0.1);
+        }
+
+        .form-button {
+            background: linear-gradient(90deg, #2ef1f1, #1bdada);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-family: 'Khmer OS Muol', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(46, 241, 241, 0.3);
+        }
+
+        .form-button:active {
+            transform: translateY(0);
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .grid-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            border-color: #2ef1f1;
+            background: rgba(46, 241, 241, 0.1);
+        }
+
+        .grid-icon {
+            font-size: 2.5rem;
+            color: #2ef1f1;
+            margin-bottom: 20px;
+        }
+
+        .grid-title {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .grid-content {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        /* Map */
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            border: 3px solid #2ef1f1;
+            position: relative;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            border: 2px solid #2ef1f1;
+        }
+
+        .map-overlay h3 {
+            color: #2ef1f1;
+            margin-bottom: 10px;
+        }
+
+        .map-overlay p {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        /* Social Media */
+        .social-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .social-title {
+            font-size: 2rem;
+            color: #2ef1f1;
+            margin-bottom: 30px;
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-item {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .social-item:hover {
+            transform: translateY(-10px) scale(1.1);
+        }
+
+        .social-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-item:hover::after {
+            opacity: 1;
+        }
+
+        .facebook { background: linear-gradient(135deg, #1877F2, #0d5cb6); }
+        .youtube { background: linear-gradient(135deg, #FF0000, #cc0000); }
+        .telegram { background: linear-gradient(135deg, #0088cc, #006699); }
+        .email { background: linear-gradient(135deg, #EA4335, #c33a2e); }
+        .whatsapp { background: linear-gradient(135deg, #25D366, #1da851); }
+
+        /* Hours of Operation */
+        .hours-section {
+            margin-bottom: 60px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .hours-table th {
+            background: rgba(46, 241, 241, 0.2);
+            color: #2ef1f1;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .hours-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+
+        .hours-table tr:hover {
+            background: rgba(46, 241, 241, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 50px 20px;
+            text-align: center;
+            border-top: 2px solid #2ef1f1;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            color: #2ef1f1;
+            margin-bottom: 20px;
+        }
+
+        .footer-info {
+            color: #ccc;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            border: 3px solid #2ef1f1;
+            z-index: 2000;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            transition: transform 0.5s ease;
+        }
+
+        .success-message.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #2ef1f1;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .contact-layout {
+                gap: 20px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .map-overlay {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin: 20px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="javascript:history.back()" class="back-btn">
+        <i class="fas fa-arrow-left"></i> ត្រឡប់ក្រោយ
+    </a>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="page-title">ទំនាក់ទំនង</h1>
+        <p class="page-subtitle">ទំនាក់ទំនងជាមួយវត្តសាលាគូរ (វត្តអំពិលបី)</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Contact Layout -->
+        <div class="contact-layout">
+            <!-- Left Column: Contact Info -->
+            <div>
+                <!-- Basic Contact Info -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h3 class="contact-title">ព័ត៌មានទំនាក់ទំនង</h3>
+                    <div class="contact-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>ភូមិម្លូមុឺន ឃុំផ្សារដែក ស្រុកពញាឮ ខេត្តកណ្ដាល</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>០១២ ៣៤៥ ៦៧៨</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>០៩៧ ៨៨៨ ៩៩៩៩</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@watsalakour.org</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>០៥:០០ - ២០:០០ គ្រប់ថ្ងៃ</span>
+                    </div>
+                </div>
+
+                <!-- Monk Contact Info -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="contact-title">ទំនាក់ទំនងព្រះសង្ឃ</h3>
+                    <div class="contact-detail">
+                        <i class="fas fa-crown"></i>
+                        <span>ព្រះចៅអធិការ៖ ព្រះតេជគុណ ធម្មវិរិយោ</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>០១១ ២២២ ៣៣៣</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-user-tie"></i>
+                        <span>ព្រះអធិបតីរង៖ ព្រះតេជគុណ វិបស្សនាធរោ</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>០១១ ៣៣៣ ៤៤៤</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Contact Form -->
+            <div>
+                <div class="form-container">
+                    <h2 class="form-title">សូមសាកសួរឬផ្ញើសារ</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label class="form-label" for="name">ឈ្មោះពេញ *</label>
+                            <input type="text" id="name" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="phone">លេខទូរស័ព្ទ *</label>
+                            <input type="tel" id="phone" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="email">អ៊ីមែល</label>
+                            <input type="email" id="email" class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="subject">ប្រធានបទ *</label>
+                            <select id="subject" class="form-input" required>
+                                <option value="">ជ្រើសរើសប្រធានបទ</option>
+                                <option value="donation">ការបរិច្ចាគ</option>
+                                <option value="activity">សកម្មភាពវត្ត</option>
+                                <option value="visit">ការមកទស្សនា</option>
+                                <option value="volunteer">ការជួយអន្តរកម្ម</option>
+                                <option value="other">ផ្សេងៗ</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="message">សារ *</label>
+                            <textarea id="message" class="form-textarea" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="form-button">
+                            <i class="fas fa-paper-plane"></i> ផ្ញើសារ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Grid -->
+        <div class="contact-grid">
+            <div class="grid-item">
+                <div class="grid-icon">
+                    <i class="fas fa-donate"></i>
+                </div>
+                <h3 class="grid-title">ការបរិច្ចាគ</h3>
+                <p class="grid-content">
+                    ចូលរួមឧបត្ថម្ភដល់សកម្មភាពវត្ត
+                    និងការអភិវឌ្ឍន៍សហគមន៍
+                </p>
+            </div>
+
+            <div class="grid-item">
+                <div class="grid-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3 class="grid-title">ការជួយអន្តរកម្ម</h3>
+                <p class="grid-content">
+                    មកជួយធ្វើការងារសាងសង់
+                    ឬចូលរួមក្នុងសកម្មភាពសង្គម
+                </p>
+            </div>
+
+            <div class="grid-item">
+                <div class="grid-icon">
+                    <i class="fas fa-bus"></i>
+                </div>
+                <h3 class="grid-title">ការមកទស្សនា</h3>
+                <p class="grid-content">
+                    សូមទំនាក់ទំនងមុនមកទស្សនា
+                    សម្រាប់ការរៀបចំផ្លូវគ្រារព្រះសង្ឃ
+                </p>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div>
+                    <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: #2ef1f1; margin-bottom: 15px;"></i>
+                    <p>ទីតាំង៖ ភូមិម្លូមុឺន ឃុំផ្សារដែក ស្រុកពញាឮ ខេត្តកណ្ដាល</p>
+                    <p style="margin-top: 10px; color: #999;">GPS: 11.6124° N, 104.9080° E</p>
+                </div>
+            </div>
+            <div class="map-overlay">
+                <h3>ការណែនាំផ្លូវ</h3>
+                <p>១. ចេញពីទីរួមខេត្តតាមផ្លូវជាតិលេខ៥</p>
+                <p>២. បត់ស្តាំនៅភ្នំពេញក្រៅ</p>
+                <p>៣. បន្តតាមផ្លូវចម្ងាយ១០គីឡូម៉ែត្រ</p>
+                <p>៤. វត្តស្ថិតនៅខាងស្តាំដៃ</p>
+            </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="social-section">
+            <h2 class="social-title">ទំនាក់ទំនងតាមបណ្តាញសង្គម</h2>
+            <div class="social-grid">
+                <a href="#" class="social-item facebook" data-tooltip="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-item youtube" data-tooltip="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="social-item telegram" data-tooltip="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="mailto:info@watsalakour.org" class="social-item email" data-tooltip="អ៊ីមែល">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://wa.me/85512345678" class="social-item whatsapp" data-tooltip="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Hours of Operation -->
+        <div class="hours-section">
+            <h2 class="section-title" style="font-size: 2rem; color: #2ef1f1; margin-bottom: 30px;">ម៉ោងបើកបិទ</h2>
+            <table class="hours-table">
+                <thead>
+                    <tr>
+                        <th>ថ្ងៃ</th>
+                        <th>ម៉ោងបើក</th>
+                        <th>ម៉ោងបិទ</th>
+                        <th>ការកំណត់</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ច័ន្ទ - សុក្រ</td>
+                        <td>០៥:០០</td>
+                        <td>២០:០០</td>
+                        <td>បើកជាធម្មតា</td>
+                    </tr>
+                    <tr>
+                        <td>សៅរ៍</td>
+                        <td>០៥:០០</td>
+                        <td>២១:០០</td>
+                        <td>មានសកម្មភាពពិសេស</td>
+                    </tr>
+                    <tr>
+                        <td>អាទិត្យ</td>
+                        <td>០៥:០០</td>
+                        <td>១៨:០០</td>
+                        <td>ការសូត្រធម៌</td>
+                    </tr>
+                    <tr>
+                        <td>ថ្ងៃបុណ្យ</td>
+                        <td>០៤:០០</td>
+                        <td>២២:០០</td>
+                        <td>ពិធីបុណ្យពិសេស</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">វត្តសាលាគូរ (វត្តអំពិលបី)</div>
+        <p class="footer-info">
+            ភូមិម្លូមុឺន ឃុំផ្សារដែក ស្រុកពញាឮ ខេត្តកណ្ដាល<br>
+            ទូរស័ព្ទ: ០១២ ៣៤៥ ៦៧៨៩ | អ៊ីមែល: info@watsalakour.org
+        </p>
+        <p>&copy; ២០២៤ វត្តសាលាគូរ. រក្សាសិទ្ធិគ្រប់យ៉ាង.</p>
+    </footer>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 style="color: #2ef1f1; margin-bottom: 15px;">សារបានផ្ញើរួច!</h2>
+        <p style="color: #ccc; margin-bottom: 25px;">សូមអរគុណសម្រាប់ការទំនាក់ទំនង។ យើងនឹងឆ្លើយតបទៅអ្នកឆាប់ៗនេះ។</p>
+        <button onclick="closeSuccessMessage()" style="
+            background: #2ef1f1;
+            color: #000;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Khmer OS Moul';
+        ">
+            យល់ព្រម
+        </button>
+    </div>
+
+    <script>
+        // Handle Contact Form Submission
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Reset form
+            contactForm.reset();
+            
+            // In a real application, you would send the data to a server here
+            console.log('Form submitted:', formData);
+        });
+
+        function closeSuccessMessage() {
+            successMessage.classList.remove('show');
+        }
+
+        // Copy contact info on click
+        document.querySelectorAll('.contact-detail').forEach(element => {
+            element.addEventListener('click', function() {
+                const text = this.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = this.textContent;
+                    this.innerHTML = '<i class="fas fa-check"></i> ចម្លងរួច!';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+        });
+
+        // Social media click handlers
+        document.querySelectorAll('.social-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const platform = this.getAttribute('data-tooltip');
+                console.log(`Redirecting to ${platform}...`);
+                // In real implementation, these would have actual links
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and items
+        document.querySelectorAll('.contact-card, .form-container, .grid-item, .map-container').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(element);
+        });
+
+        // Back button functionality
+        document.querySelector('.back-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.history.back();
+        });
+
+        // Close success message when clicking outside
+        document.addEventListener('click', function(e) {
+            if (successMessage.classList.contains('show') && 
+                !successMessage.contains(e.target) && 
+                e.target !== contactForm) {
+                closeSuccessMessage();
+            }
+        });
+
+        // Initialize with some animations
+        window.addEventListener('load', () => {
+            // Animate social icons
+            document.querySelectorAll('.social-item').forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        item.style.transition = 'transform 0.5s ease';
+                        item.style.transform = 'scale(1)';
+                    }, 50);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
